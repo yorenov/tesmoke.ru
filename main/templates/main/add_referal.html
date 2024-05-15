@@ -1,0 +1,25 @@
+
+<div class="modal fade" id="addReferralLinkModal" tabindex="-1" aria-labelledby="addReferralLinkModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addReferralLinkModalLabel">Add Referral Link</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="{% url 'add_referral_link' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Add</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // JavaScript to display modal on page load
+    $(document).ready(function(){
+      $("#addReferralLinkModal").modal('show');
+    });
+  </script>  
