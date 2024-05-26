@@ -10,72 +10,74 @@
         <img src="{% static 'main/img/avatar.jpg' %}" class="avatar"><br>
         <h1 class="nickname">tesmoke</h1>
         <div class="social-links social-links-rectangle">
-            <a href="https://vk.com/tesmoke" class="referral-link" data-social="vk" target="_blank">
+            <a href="{% url 'save_stats_data'%}?social_network=vk&url=https://vk.com/tesmoke{% if refid %}&refid=
+{{ refid }}{% endif %}" class="referral-link" data-social="vk" target="_blank">
                 <img src="{% static 'main/img/vk.svg' %}" alt="Vkontakte">
             </a>
-            <a href="https://t.me/Tesmoke" class="referral-link" data-social="telegram" target="_blank">
+            <a href="{% url 'save_stats_data'%}?social_network=telegram&url=https://t.me/Tesmoke{% if refid %}&refid=
+{{ refid }}{% endif %}" class="referral-link" data-social="telegram" target="_blank">
                 <img src="{% static 'main/img/telegram.svg' %}" alt="Telegram">
             </a>
-            <a href="https://www.tiktok.com/@tesmoke" class="referral-link" data-social="tiktok" target="_blank">
+            <a href="{% url 'save_stats_data'%}?social_network=tiktok&url=https://www.tiktok.com/@tesmoke{% if refid %}&refid=
+{{ refid }}{% endif %}" class="referral-link" data-social="tiktok" target="_blank">
                 <img src="{% static 'main/img/tiktok.svg' %}" alt="Tiktok">
             </a>
-            {% if referral %}
-                <p>{{ referral }}</p>
-            {% endif %}
         </div>
     </div>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOM content loaded');
-        const referralLinks = document.querySelectorAll('.referral-link');
-        console.log('Found referral links:', referralLinks.length);
-        
-        referralLinks.forEach(function(link) {
-            link.addEventListener('click', function(event) {
-                console.log('Click event detected');
-                const socialNetwork = this.getAttribute('data-social');
-                console.log('Clicked on social network:', socialNetwork);
-                
-                fetch('https://api.ipify.org?format=json')
-                    .then(response => response.json())
-                    .then(data => {
-                        const ipAddress = data.ip;
-                        console.log('Retrieved IP address:', ipAddress);
-                        console.log('Sending referral data to server...');
-                        
-                        const requestData = {
-                            social_network: socialNetwork,
-                            ip_address: ipAddress
-                        };
-    
-                        fetch('{% url "save_stats_data" %}', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRFToken': '{{ csrf_token }}'
-                            },
-                            body: JSON.stringify(requestData)
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log('Server response received:', data);
-                        })
-                        .catch(error => {
-                            console.error('Error saving referral data:', error);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error fetching IP address:', error);
-                    });
-            });
-        });
-    });
-    
-</script>
+
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function() {-->
+<!--        console.log('DOM content loaded');-->
+<!--        const referralLinks = document.querySelectorAll('.referral-link');-->
+<!--        console.log('Found referral links:', referralLinks.length);-->
+
+<!--        referralLinks.forEach(function(link) {-->
+<!--            link.addEventListener('click', function(event) {-->
+<!--                console.log('Click event detected');-->
+<!--                const socialNetwork = this.getAttribute('data-social');-->
+<!--                console.log('Clicked on social network:', socialNetwork);-->
+
+<!--                fetch('https://api.ipify.org?format=json')-->
+<!--                    .then(response => response.json())-->
+<!--                    .then(data => {-->
+<!--                        const ipAddress = data.ip;-->
+<!--                        console.log('Retrieved IP address:', ipAddress);-->
+<!--                        console.log('Sending referral data to server...');-->
+
+<!--                        const requestData = {-->
+<!--                            social_network: socialNetwork,-->
+<!--                            ip_address: ipAddress-->
+<!--                        };-->
+
+<!--                        fetch('{% url "save_stats_data" %}', {-->
+<!--                            method: 'POST',-->
+<!--                            headers: {-->
+<!--                                'Content-Type': 'application/json',-->
+<!--                                'X-CSRFToken': '{{ csrf_token }}'-->
+<!--                            },-->
+<!--                            body: JSON.stringify(requestData)-->
+<!--                        })-->
+<!--                        .then(response => {-->
+<!--                            if (!response.ok) {-->
+<!--                                throw new Error('Network response was not ok');-->
+<!--                            }-->
+<!--                            return response.json();-->
+<!--                        })-->
+<!--                        .then(data => {-->
+<!--                            console.log('Server response received:', data);-->
+<!--                        })-->
+<!--                        .catch(error => {-->
+<!--                            console.error('Error saving referral data:', error);-->
+<!--                        });-->
+<!--                    })-->
+<!--                    .catch(error => {-->
+<!--                        console.error('Error fetching IP address:', error);-->
+<!--                    });-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+
+<!--</script>-->
+
 {% endblock content %}
